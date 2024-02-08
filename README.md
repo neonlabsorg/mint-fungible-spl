@@ -1,4 +1,4 @@
-#Examples of Fungible SPL token creation with Metaplex Foundation Umi framework
+# Examples of Fungible SPL token creation with Metaplex Foundation Umi framework
 
 **NOTE**
 
