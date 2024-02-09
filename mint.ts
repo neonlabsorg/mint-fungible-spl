@@ -1,17 +1,11 @@
-import { percentAmount, generateSigner, signerIdentity, createSignerFromKeypair } from '@metaplex-foundation/umi'
+import { percentAmount, generateSigner } from '@metaplex-foundation/umi'
 import { TokenStandard, createAndMint } from '@metaplex-foundation/mpl-token-metadata'
-import { createUmi } from '@metaplex-foundation/umi-bundle-defaults';
 import { mplCandyMachine } from "@metaplex-foundation/mpl-candy-machine";
 import  "@solana/web3.js";
-import secret from './secret.json';
+import { setupUmiClient } from "./utils/setupClient";
 
-require('dotenv').config({ path: `./env/.env` });
-
-const umi = createUmi(process.env.SOLANA_URL!); //Replace with your Solana RPC Endpoint
-
-//Initialize the wallet from the secret and making it the signer for transactions
-const userWallet = umi.eddsa.createKeypairFromSecretKey(new Uint8Array(secret));
-const userWalletSigner = createSignerFromKeypair(umi, userWallet);
+const umi = setupUmiClient().umi;
+const userWallet = setupUmiClient().userWallet;
 
 const metadata = {
   name: "Awesome Token",
@@ -21,10 +15,8 @@ const metadata = {
 
 //Create a new Mint PDA
 const mint = generateSigner(umi);
-//Ask the umi client to use our wallet initialized earlier from secret as a signer
-umi.use(signerIdentity(userWalletSigner));
 //Use Candy Machine to mint tokens
-umi.use(mplCandyMachine())
+umi.use(mplCandyMachine());
 
 //Send a transaction to deploy the Mint PDA and mint 1 million of our tokens
 createAndMint(umi, {

@@ -29,7 +29,7 @@ fs.writeFile('secret.json', secret, 'utf8', function(err) {
 });
 
 //STEP 5 - Airdrop 1 SOL to new wallet
-(async()=>{
+(async() => {
   const signature = solanaConnection.requestAirdrop(
     keypair.publicKey,
     LAMPORTS_PER_SOL,

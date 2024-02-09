@@ -43,6 +43,13 @@ Alternatively, you can export your existing private key and place it in the secr
 
 ## Usage
 
+### Usecases:
+- [Create and mint token with Metadata](#mint-token-with-metadata)
+- [Create token Metadata](#create-token-metadata)
+- [Update token Metadata](#update-token-metadata)
+
+<a name="mint"></a>
+#### Mint token with metadata
 To create and mint your own token, you'll need a token icon and metadata that are publicly accessible.
 You can use [IPFS](https://docs.ipfs.tech/install/command-line/) for this purpose or another publicly accessible storage solution.
 
@@ -99,6 +106,29 @@ TOKEN_MINT='XXXXXXXXXXXXXXXXX'
 ```
 
 You will need it further to create an ERC20ForSPL token address.
+
+<a name="create"></a>
+#### Create token metadata
+
+If you already have your own token but lack metadata, you can create it using the following command:
+
+```sh
+yarn ts-node createTokenMetadata.ts
+```
+
+See the example from the createTokenMetadata.ts file.
+
+<a name="update"></a>
+#### Update token metadata
+
+If you want to update your token metadata, you can use the following command:
+
+```sh
+yarn ts-node updateTokenMetadata.ts
+```
+
+See the example from the updateTokenMetadata.ts file. Ensure that the **isMutable** field of the metadata is set to true; otherwise, you won't be able to update it. Once it's set to false, it can't be reverted anymore.
+
 
 ## ERC20ForSPL token creation
 
