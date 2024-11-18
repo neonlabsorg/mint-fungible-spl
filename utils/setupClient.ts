@@ -1,15 +1,17 @@
 /*
  * Setup Umi client, you can choose to use the default Umi client or create your own
  */
-import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
-import { Umi, createSignerFromKeypair, signerIdentity, TransactionBuilder } from "@metaplex-foundation/umi";
+import { createUmi } from '@metaplex-foundation/umi-bundle-defaults';
+import { createSignerFromKeypair, signerIdentity, TransactionBuilder, Umi } from '@metaplex-foundation/umi';
+import bs58 from 'bs58';
 import secret from '../secret.json';
-import bs58 from "bs58";
 
 require('dotenv').config({ path: `./env/.env` });
 
+const SOLANA_URL = process.env.SOLANA_URL!;
+
 export function setupUmiClient() {
-  const umi = createUmi(process.env.SOLANA_URL!); //Replace with your Solana RPC Endpoint
+  const umi = createUmi(SOLANA_URL); //Replace with your Solana RPC Endpoint
 
   //Initialize the wallet from the secret and making it the signer for transactions
   const userWallet = umi.eddsa.createKeypairFromSecretKey(new Uint8Array(secret));
@@ -26,7 +28,6 @@ export async function buildAndSendTransaction(umi: Umi, instruction: Transaction
 
   const transactionSignature = await umi.rpc.sendTransaction(transaction);
   const signature = bs58.encode(transactionSignature);
-  console.log(`Transaction Id: ${signature}`)
-  console.log(`https://explorer.solana.com/tx/${signature}?cluster=devnet`)
+  console.log(`Transaction Id: ${signature}`);
+  console.log(`https://explorer.solana.com/tx/${signature}?cluster=custom&clusterUrl=${SOLANA_URL}`);
 }
-
